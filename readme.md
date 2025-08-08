@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://roadmap.sh/"><img src="public/images/brand.png" height="128"></a>
+  <a href="https://roadmap.sh/"><img src="public/img/brand.png" height="128"></a>
   <h2 align="center"><a href="https://roadmap.sh">roadmap.sh</a></h2>
   <p align="center">Community driven roadmaps, articles and resources for developers<p>
   <p align="center">
@@ -87,6 +87,8 @@ Here is the list of available roadmaps with more being actively worked upon.
 - [Prompt Engineering Roadmap](https://roadmap.sh/prompt-engineering)
 - [Technical Writer Roadmap](https://roadmap.sh/technical-writer)
 - [DevRel Engineer Roadmap](https://roadmap.sh/devrel)
+- [AI Red Teaming Roadmap](https://roadmap.sh/ai-red-teaming)
+- [AI Agents Roadmap](https://roadmap.sh/ai-agents)
 
 There are also interactive best practices:
 

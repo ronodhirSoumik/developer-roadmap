@@ -25,6 +25,7 @@ import { AICourseFooter } from './AICourseFooter';
 import { ForkCourseAlert } from './ForkCourseAlert';
 import { ForkCourseConfirmation } from './ForkCourseConfirmation';
 import { useAuth } from '../../hooks/use-auth';
+import { getPercentage } from '../../lib/number';
 
 type AICourseContentProps = {
   courseSlug?: string;
@@ -134,8 +135,9 @@ export function AICourseContent(props: AICourseContentProps) {
   );
 
   const totalDoneLessons = (course?.done || []).length;
-  const finishedPercentage = Math.round(
-    (totalDoneLessons / totalCourseLessons) * 100,
+  const finishedPercentage = getPercentage(
+    totalDoneLessons,
+    totalCourseLessons,
   );
 
   const modals = (
@@ -254,12 +256,14 @@ export function AICourseContent(props: AICourseContentProps) {
             </span>
           </a>
           <div className="flex items-center gap-2">
-            <div className="flex flex-row lg:hidden">
-              <AICourseLimit
-                onUpgrade={() => setShowUpgradeModal(true)}
-                onShowLimits={() => setShowAILimitsPopup(true)}
-              />
-            </div>
+            {!isLoading && (
+              <div className="flex flex-row lg:hidden">
+                <AICourseLimit
+                  onUpgrade={() => setShowUpgradeModal(true)}
+                  onShowLimits={() => setShowAILimitsPopup(true)}
+                />
+              </div>
+            )}
 
             {viewMode === 'module' && (
               <button
@@ -313,7 +317,7 @@ export function AICourseContent(props: AICourseContentProps) {
                 </span>
               )}
 
-              {finishedPercentage > 0 && (
+              {finishedPercentage > 0 && !isLoading && (
                 <>
                   <span className="text-gray-400">•</span>
                   <span className="font-medium text-green-600">
@@ -324,14 +328,16 @@ export function AICourseContent(props: AICourseContentProps) {
             </div>
           </div>
         </div>
-        <div className="flex gap-2">
-          <div className="hidden gap-2 lg:flex">
-            <AICourseLimit
-              onUpgrade={() => setShowUpgradeModal(true)}
-              onShowLimits={() => setShowAILimitsPopup(true)}
-            />
+        {!isLoading && (
+          <div className="flex gap-2">
+            <div className="hidden gap-2 lg:flex">
+              <AICourseLimit
+                onUpgrade={() => setShowUpgradeModal(true)}
+                onShowLimits={() => setShowAILimitsPopup(true)}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </header>
 
       <div className="flex flex-1 overflow-hidden">
@@ -497,6 +503,7 @@ export function AICourseContent(props: AICourseContentProps) {
               onForkCourse={() => {
                 setIsForkingCourse(true);
               }}
+              courseSlug={courseSlug!}
             />
           )}
 

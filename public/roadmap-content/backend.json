@@ -134,11 +134,6 @@
         "type": "article"
       },
       {
-        "title": "Learn PHP - W3Schools",
-        "url": "https://www.w3schools.com/php/",
-        "type": "article"
-      },
-      {
         "title": "PHP - The Right Way",
         "url": "https://phptherightway.com/",
         "type": "article"
@@ -237,11 +232,6 @@
         "type": "article"
       },
       {
-        "title": "W3 Schools Tutorials",
-        "url": "https://www.w3schools.com/java/",
-        "type": "article"
-      },
-      {
         "title": "Explore top posts about Java",
         "url": "https://app.daily.dev/tags/java?ref=roadmapsh",
         "type": "article"
@@ -301,11 +291,6 @@
       {
         "title": "C# Tour",
         "url": "https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/",
-        "type": "article"
-      },
-      {
-        "title": "C# on W3 schools",
-        "url": "https://www.w3schools.com/cs/index.php",
         "type": "article"
       },
       {
@@ -611,11 +596,6 @@
       {
         "title": "MySQL",
         "url": "https://www.mysql.com/",
-        "type": "article"
-      },
-      {
-        "title": "W3Schools - MySQL Tutorial",
-        "url": "https://www.w3schools.com/mySQl/default.asp",
         "type": "article"
       },
       {
@@ -1089,11 +1069,6 @@
     "title": "SOAP",
     "description": "Simple Object Access Protocol (SOAP) is a message protocol for exchanging information between systems and applications. When it comes to application programming interfaces (APIs), a SOAP API is developed in a more structured and formalized way. SOAP messages can be carried over a variety of lower-level protocols, including the web-related Hypertext Transfer Protocol (HTTP).\n\nVisit the following resources to learn more:",
     "links": [
-      {
-        "title": "w3school SOAP explanation",
-        "url": "https://www.w3schools.com/xml/xml_soap.asp",
-        "type": "article"
-      },
       {
         "title": "REST vs SOAP",
         "url": "https://www.youtube.com/watch?v=_fq8Ye8kodA",
@@ -2185,11 +2160,6 @@
         "type": "article"
       },
       {
-        "title": "Throttling and Debouncing",
-        "url": "https://dev.to/aneeqakhan/throttling-and-debouncing-explained-1ocb",
-        "type": "article"
-      },
-      {
         "title": "Throttling vs Debouncing",
         "url": "https://www.youtube.com/watch?v=tJhA0DrH5co",
         "type": "video"
@@ -2655,6 +2625,11 @@
         "type": "article"
       },
       {
+        "title": "Every thing you need to know about HTTP",
+        "url": "https://www3.ntu.edu.sg/home/ehchua/programming/webprogramming/HTTP_Basics.html",
+        "type": "article"
+      },
+      {
         "title": "HTTP/1 to HTTP/2 to HTTP/3",
         "url": "https://www.youtube.com/watch?v=a-sBfyiXysI",
         "type": "video"
@@ -2728,6 +2703,11 @@
     "description": "DNS (Domain Name System) is a hierarchical, decentralized naming system for computers, services, or other resources connected to the Internet or a private network. It translates human-readable domain names (like `www.example.com`) into IP addresses (like 192.0.2.1) that computers use to identify each other. DNS servers distributed worldwide work together to resolve these queries, forming a global directory service. The system uses a tree-like structure with root servers at the top, followed by top-level domain servers (.com, .org, etc.), authoritative name servers for specific domains, and local DNS servers. DNS is crucial for the functioning of the Internet, enabling users to access websites and services using memorable names instead of numerical IP addresses. It also supports email routing, service discovery, and other network protocols.\n\nVisit the following resources to learn more:",
     "links": [
       {
+        "title": "Everything You Need to Know About DNS",
+        "url": "https://cs.fyi/guide/everything-you-need-to-know-about-dns",
+        "type": "article"
+      },
+      {
         "title": "What is DNS?",
         "url": "https://www.cloudflare.com/en-gb/learning/dns/what-is-dns/",
         "type": "article"
@@ -2780,23 +2760,8 @@
     "description": "API authentication is the process of verifying the identity of clients attempting to access an API, ensuring that only authorized users or applications can interact with the API's resources. Common methods include API keys, OAuth 2.0, JSON Web Tokens (JWT), basic authentication, and OpenID Connect. These techniques vary in complexity and security level, from simple token-based approaches to more sophisticated protocols that handle both authentication and authorization. API authentication protects sensitive data, prevents unauthorized access, enables usage tracking, and can provide granular control over resource access. The choice of authentication method depends on factors such as security requirements, types of clients, ease of implementation, and scalability needs. Implementing robust API authentication is crucial for maintaining the integrity, security, and controlled usage of web services and applications in modern, interconnected software ecosystems.\n\nVisit the following resources to learn more:",
     "links": [
       {
-        "title": "SSO - Single Sign On",
-        "url": "https://roadmap.sh/guides/sso",
-        "type": "article"
-      },
-      {
-        "title": "OAuth - Open Authorization",
-        "url": "https://roadmap.sh/guides/oauth",
-        "type": "article"
-      },
-      {
-        "title": "JWT Authentication",
-        "url": "https://roadmap.sh/guides/jwt-authentication",
-        "type": "article"
-      },
-      {
-        "title": "Token Based Authentication",
-        "url": "https://roadmap.sh/guides/token-authentication",
+        "title": "Basic Authentication",
+        "url": "https://roadmap.sh/guides/basic-authentication",
         "type": "article"
       },
       {
@@ -2805,8 +2770,23 @@
         "type": "article"
       },
       {
-        "title": "Basic Authentication",
-        "url": "https://roadmap.sh/guides/basic-authentication",
+        "title": "Token Based Authentication",
+        "url": "https://roadmap.sh/guides/token-authentication",
+        "type": "article"
+      },
+      {
+        "title": "JWT Authentication",
+        "url": "https://roadmap.sh/guides/jwt-authentication",
+        "type": "article"
+      },
+      {
+        "title": "OAuth - Open Authorization",
+        "url": "https://roadmap.sh/guides/oauth",
+        "type": "article"
+      },
+      {
+        "title": "SSO - Single Sign On",
+        "url": "https://roadmap.sh/guides/sso",
         "type": "article"
       },
       {

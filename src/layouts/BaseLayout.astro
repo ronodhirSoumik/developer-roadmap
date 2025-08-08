@@ -19,10 +19,17 @@ import { CourseAnnouncement } from '../components/SQLCourse/CourseAnnouncement';
 import { Toaster } from '../components/Toast';
 import { siteConfig } from '../lib/config';
 import type { ResourceType } from '../lib/resource-progress';
+import Bluconic from '../components/Analytics/Bluconic.astro';
+import OneTrust from '../components/Analytics/OneTrust.astro';
+import LinkedIn from '../components/Analytics/LinkedIn.astro';
+import { cn } from '../lib/classname';
+import { GlobalUpgradeModal } from '../components/Billing/GlobalUpgradeModal';
 
 export interface Props {
   title: string;
   ogImageUrl?: string;
+  htmlClassName?: string;
+  bodyClassName?: string;
   // This isn't used anywhere except for the sponsor event labels
   briefTitle?: string;
   redirectUrl?: string;
@@ -40,9 +47,11 @@ export interface Props {
 
 const {
   title = siteConfig.title,
+  htmlClassName,
+  bodyClassName,
   briefTitle,
   description = siteConfig.description,
-  ogImageUrl = 'https://roadmap.sh/images/og-img.png',
+  ogImageUrl = 'https://roadmap.sh/img/og-img.png',
   keywords = siteConfig.keywords,
   noIndex = false,
   permalink = '',
@@ -70,7 +79,7 @@ const gaPageIdentifier = Astro.url.pathname
 ---
 
 <!doctype html>
-<html lang='en'>
+<html lang='en' class={htmlClassName}>
   <head>
     <meta charset='UTF-8' />
     <meta name='generator' content={Astro.generator} />
@@ -97,7 +106,7 @@ const gaPageIdentifier = Astro.url.pathname
     <meta property='og:image:height' content='630' />
     <meta
       property='og:image'
-      content={ogImageUrl || 'https://roadmap.sh/images/og-img.png'}
+      content={ogImageUrl || 'https://roadmap.sh/img/og-img.png'}
     />
     <meta property='og:image:alt' content='roadmap.sh' />
     <meta property='og:site_name' content='roadmap.sh' />
@@ -156,7 +165,13 @@ const gaPageIdentifier = Astro.url.pathname
     {
       hasVarify && (
         <Fragment>
+          <style is:inline>.varify-antiflicker{opacity:0 !important}</style>
           <script is:inline>
+            window.setTimeout(() => {
+              document.querySelectorAll('.varify-antiflicker').forEach((el) => {
+                el.classList.remove('varify-antiflicker');
+              });
+            }, 4000);
             window.varify = window.varify || {};
             window.varify.iid = 4013;
           </script>
@@ -165,30 +180,43 @@ const gaPageIdentifier = Astro.url.pathname
       )
     }
     <!-- Google Tag Manager Start -->
-    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-T66KC7S8');</script>
+    <script is:inline>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-T66KC7S8');
+    </script>
     <!-- Google Tag Manager End -->
 
     <slot name='after-header' />
     {
       jsonLd.length > 0 && (
-        <script
-          type='application/ld+json'
-          set:html={JSON.stringify(jsonLd.length === 1 ? jsonLd[0] : jsonLd)}
-        />
+        <script type='application/ld+json' set:html={JSON.stringify(jsonLd)} />
       )
     }
 
     <Analytics />
-    <Clarity />
-    <RedditPixel />
     <GoogleAd />
-    <Hubspot />
+
+    {
+      !import.meta.env.DEV && (
+        <>
+          <OneTrust />
+          <Clarity />
+          <RedditPixel />
+          <Hubspot />
+          <Bluconic />
+        </>
+      )
+    }
   </head>
-  <body class='flex min-h-screen flex-col'>
+  <body class={cn('flex min-h-screen flex-col', bodyClassName)}>
     <!-- Google Tag Manager (noscript) -->
     <noscript>
       <iframe
@@ -224,6 +252,7 @@ const gaPageIdentifier = Astro.url.pathname
     <Toaster client:only='react' />
     <CommandMenu client:idle />
     <PageProgress initialMessage={initialLoadingMessage} client:idle />
+    <GlobalUpgradeModal client:only='react' />
 
     <GoogleAdSlot />
     <slot name='after-footer' />
@@ -233,5 +262,7 @@ const gaPageIdentifier = Astro.url.pathname
       resourceType={resourceType}
       client:load
     />
+
+    {!import.meta.env.DEV && <LinkedIn />}
   </body>
 </html>

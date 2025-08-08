@@ -35,11 +35,6 @@
         "type": "article"
       },
       {
-        "title": "Node.js - Introduction",
-        "url": "https://www.w3schools.com/nodejs/nodejs_intro.asp",
-        "type": "article"
-      },
-      {
         "title": "Explore top posts about Node.js",
         "url": "https://app.daily.dev/tags/nodejs?ref=roadmapsh",
         "type": "article"
@@ -376,7 +371,7 @@
       },
       {
         "title": "Getting Started with Npm Workspaces",
-        "url": "https://ruanmartinelli.com/posts/npm-7-workspaces-1",
+        "url": "https://ruanmartinelli.com/blog/npm-7-workspaces-1/",
         "type": "article"
       },
       {
@@ -682,11 +677,6 @@
         "type": "article"
       },
       {
-        "title": "W3Schools – JavaScript - setTimeOut",
-        "url": "https://www.w3schools.com/jsref/met_win_settimeout.asp",
-        "type": "article"
-      },
-      {
         "title": "setInterval and setTimeout: timing events",
         "url": "https://www.youtube.com/watch?v=kOcFZV3c75I",
         "type": "video"
@@ -863,11 +853,6 @@
       {
         "title": "fs module",
         "url": "https://nodejs.org/api/fs.html",
-        "type": "article"
-      },
-      {
-        "title": "More about fs module",
-        "url": "https://www.w3schools.com/nodejs/nodejs_filesystem.asp",
         "type": "article"
       },
       {
@@ -1119,11 +1104,6 @@
         "title": "Chalk Docs",
         "url": "https://github.com/chalk/chalk#readme",
         "type": "opensource"
-      },
-      {
-        "title": "Style Command Line Output with Chalk Package in Node.js",
-        "url": "https://www.positronx.io/style-command-line-output-with-chalk-library-in-node-js/",
-        "type": "article"
       }
     ]
   },

@@ -2,6 +2,7 @@
 @import '@roadmapsh/editor/style.css';
 
 @config '../../tailwind.config.cjs';
+@plugin 'tailwind-scrollbar';
 
 @font-face {
   font-family: 'Balsamiq Sans';
@@ -56,6 +57,12 @@
   }
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+@utility collapse-if-empty {
+  &:empty {
+    display: none;
+  }
 }
 
 svg {

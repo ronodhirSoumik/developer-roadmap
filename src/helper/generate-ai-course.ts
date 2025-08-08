@@ -4,39 +4,38 @@ import {
   type AiCourse,
 } from '../lib/ai';
 import { queryClient } from '../stores/query-client';
-import { getAiCourseLimitOptions } from '../queries/ai-course';
+import { aiLimitOptions } from '../queries/ai-course';
+import type { QuestionAnswerChatMessage } from '../components/ContentGenerator/QuestionAnswerChat';
 
 type GenerateCourseOptions = {
   term: string;
-  difficulty: string;
   slug?: string;
   isForce?: boolean;
   prompt?: string;
-  instructions?: string;
-  goal?: string;
-  about?: string;
   onCourseIdChange?: (courseId: string) => void;
   onCourseSlugChange?: (courseSlug: string) => void;
   onCourseChange?: (course: AiCourse, rawData: string) => void;
   onLoadingChange?: (isLoading: boolean) => void;
+  onCreatorIdChange?: (creatorId: string) => void;
   onError?: (error: string) => void;
+  src?: string;
+  questionAndAnswers?: QuestionAnswerChatMessage[];
 };
 
 export async function generateCourse(options: GenerateCourseOptions) {
   const {
     term,
     slug,
-    difficulty,
     onCourseIdChange,
     onCourseSlugChange,
     onCourseChange,
     onLoadingChange,
     onError,
+    onCreatorIdChange,
     isForce = false,
     prompt,
-    instructions,
-    goal,
-    about,
+    src = 'search',
+    questionAndAnswers,
   } = options;
 
   onLoadingChange?.(true);
@@ -44,7 +43,6 @@ export async function generateCourse(options: GenerateCourseOptions) {
     {
       title: '',
       modules: [],
-      difficulty: '',
       done: [],
     },
     '',
@@ -79,12 +77,10 @@ export async function generateCourse(options: GenerateCourseOptions) {
           },
           body: JSON.stringify({
             keyword: term,
-            difficulty,
             isForce,
             customPrompt: prompt,
-            instructions,
-            goal,
-            about,
+            questionAndAnswers,
+            src,
           }),
           credentials: 'include',
         },
@@ -113,14 +109,17 @@ export async function generateCourse(options: GenerateCourseOptions) {
 
     const COURSE_ID_REGEX = new RegExp('@COURSEID:(\\w+)@');
     const COURSE_SLUG_REGEX = new RegExp(/@COURSESLUG:([\w-]+)@/);
+    const CREATOR_ID_REGEX = new RegExp('@CREATORID:(\\w+)@');
 
     await readStream(reader, {
-      onStream: (result) => {
+      onStream: async (result) => {
         if (result.includes('@COURSEID') || result.includes('@COURSESLUG')) {
           const courseIdMatch = result.match(COURSE_ID_REGEX);
           const courseSlugMatch = result.match(COURSE_SLUG_REGEX);
+          const creatorIdMatch = result.match(CREATOR_ID_REGEX);
           const extractedCourseId = courseIdMatch?.[1] || '';
           const extractedCourseSlug = courseSlugMatch?.[1] || '';
+          const extractedCreatorId = creatorIdMatch?.[1] || '';
 
           if (extractedCourseSlug) {
             window.history.replaceState(
@@ -128,7 +127,6 @@ export async function generateCourse(options: GenerateCourseOptions) {
                 courseId: extractedCourseId,
                 courseSlug: extractedCourseSlug,
                 term,
-                difficulty,
               },
               '',
               `${origin}/ai/${extractedCourseSlug}`,
@@ -137,31 +135,29 @@ export async function generateCourse(options: GenerateCourseOptions) {
 
           result = result
             .replace(COURSE_ID_REGEX, '')
-            .replace(COURSE_SLUG_REGEX, '');
+            .replace(COURSE_SLUG_REGEX, '')
+            .replace(CREATOR_ID_REGEX, '');
 
           onCourseIdChange?.(extractedCourseId);
           onCourseSlugChange?.(extractedCourseSlug);
+          onCreatorIdChange?.(extractedCreatorId);
         }
 
         try {
           const aiCourse = generateAiCourseStructure(result);
-          onCourseChange?.(
-            {
-              ...aiCourse,
-              difficulty: difficulty || '',
-            },
-            result,
-          );
+          onCourseChange?.(aiCourse, result);
         } catch (e) {
           console.error('Error parsing streamed course content:', e);
         }
       },
-      onStreamEnd: (result) => {
+      onStreamEnd: async (result) => {
         result = result
           .replace(COURSE_ID_REGEX, '')
-          .replace(COURSE_SLUG_REGEX, '');
+          .replace(COURSE_SLUG_REGEX, '')
+          .replace(CREATOR_ID_REGEX, '');
+
         onLoadingChange?.(false);
-        queryClient.invalidateQueries(getAiCourseLimitOptions());
+        queryClient.invalidateQueries(aiLimitOptions());
       },
     });
   } catch (error: any) {

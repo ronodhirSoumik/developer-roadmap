@@ -801,7 +801,7 @@
   },
   "99FVJ3Zs8n6lr8L95mG6g": {
     "title": "Rebase",
-    "description": "Rebasing in Git is a powerful and potentially complex feature used to reorganize or modify a series of commits. The primary purpose of rebasing is to create a cleaner, more linear project history by moving or combining changes from one branch onto another.\n\nVisit the following resources to learn more:",
+    "description": "Rebasing in Git is a powerful and potentially complex feature used to reorganize or modify a series of commits. The primary purpose of rebasing is to create a cleaner, more linear project history by moving or combining changes from one branch into another.\n\nVisit the following resources to learn more:",
     "links": [
       {
         "title": "Rebasing",
@@ -1694,7 +1694,7 @@
   },
   "jzYjHx-gIKSP8dQUTqWVw": {
     "title": "commit-msg",
-    "description": "The commit-msg hook is a client-side hook that runs after you've committed changes to your repository. It's typically used to validate or modify the commit message before it's recorded in the Git history.\n\nVisit the following resources to learn more:",
+    "description": "The commit-msg hook is a client-side hook that runs after you enter a commit message, but before the commit is finalized in your repository. It's typically used to validate or modify the commit message before it's recorded in the Git history.\n\nVisit the following resources to learn more:",
     "links": [
       {
         "title": "A Git-Hook for Commit Messages Validation - No Husky, Just JS",

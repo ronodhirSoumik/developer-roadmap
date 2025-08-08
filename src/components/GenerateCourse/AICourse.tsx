@@ -4,6 +4,7 @@ import { isLoggedIn } from '../../lib/jwt';
 import { showLoginPopup } from '../../lib/popup';
 import { FineTuneCourse } from './FineTuneCourse';
 import { DifficultyDropdown } from '../AITutor/DifficultyDropdown';
+import { NatureDropdown, type NatureType } from '../AITutor/NatureDropdown';
 import {
   clearFineTuneData,
   getCourseFineTuneData,
@@ -26,6 +27,7 @@ type AICourseProps = {};
 export function AICourse(props: AICourseProps) {
   const [keyword, setKeyword] = useState('');
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('beginner');
+  const [nature, setNature] = useState<NatureType>('course');
 
   const [hasFineTuneData, setHasFineTuneData] = useState(false);
   const [about, setAbout] = useState('');
@@ -51,6 +53,14 @@ export function AICourse(props: AICourseProps) {
     setCustomInstructions(fineTuneData.customInstructions);
   }, []);
 
+  useEffect(() => {
+    window?.fireEvent({
+      action: 'tutor_user',
+      category: 'ai_tutor',
+      label: 'Visited AI Course Page',
+    });
+  }, []);
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && keyword.trim()) {
       onSubmit();
@@ -73,7 +83,11 @@ export function AICourse(props: AICourseProps) {
       });
     }
 
-    window.location.href = `/ai/search?term=${encodeURIComponent(keyword)}&difficulty=${difficulty}&id=${sessionId}`;
+    if (nature === 'course') {
+      window.location.href = `/ai/course?term=${encodeURIComponent(keyword)}&difficulty=${difficulty}&id=${sessionId}&nature=${nature}`;
+    } else {
+      window.location.href = `/ai/document?term=${encodeURIComponent(keyword)}&difficulty=${difficulty}&id=${sessionId}&nature=${nature}`;
+    }
   }
 
   return (
@@ -118,11 +132,13 @@ export function AICourse(props: AICourseProps) {
             placeholder="e.g. JavaScript Promises, React Hooks, Go Routines etc"
             className="w-full rounded-md border-none bg-transparent px-4 pt-4 pb-8 text-gray-900 focus:outline-hidden max-sm:placeholder:text-base"
             maxLength={50}
+            data-clarity-unmask="true"
           />
 
           <div className="flex flex-col items-start justify-between gap-2 px-4 pb-4 md:flex-row md:items-center">
             <div className="flex flex-row items-center gap-2">
               <div className="flex flex-row gap-2">
+                <NatureDropdown value={nature} onChange={setNature} />
                 <DifficultyDropdown
                   value={difficulty}
                   onChange={setDifficulty}
@@ -140,7 +156,6 @@ export function AICourse(props: AICourseProps) {
                   id="fine-tune-checkbox"
                 />
                 Explain more
-                <span className="hidden md:inline"> for a better course</span>
               </label>
             </div>
 
@@ -161,7 +176,6 @@ export function AICourse(props: AICourseProps) {
 
           <FineTuneCourse
             hasFineTuneData={hasFineTuneData}
-            setHasFineTuneData={setHasFineTuneData}
             about={about}
             goal={goal}
             customInstructions={customInstructions}

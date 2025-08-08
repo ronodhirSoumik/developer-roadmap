@@ -1,6 +1,7 @@
 import { httpGet } from '../lib/query-http';
 import { isLoggedIn } from '../lib/jwt';
 import { queryOptions } from '@tanstack/react-query';
+import type { QuestionAnswerChatMessage } from '../components/ContentGenerator/QuestionAnswerChat';
 
 export interface AICourseProgressDocument {
   _id: string;
@@ -30,6 +31,7 @@ export interface AICourseDocument {
   difficulty: string;
   modules: AICourseModule[];
   viewCount: number;
+  questionAndAnswers?: QuestionAnswerChatMessage[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -45,21 +47,40 @@ export function getAiCourseOptions(params: GetAICourseParams) {
       );
     },
     enabled: !!params.aiCourseSlug,
+    refetchOnMount: false,
   };
 }
 
 export type GetAICourseLimitResponse = {
   used: number;
   limit: number;
+  course: {
+    used: number;
+    limit: number;
+  };
+  guide: {
+    used: number;
+    limit: number;
+  };
+  roadmap: {
+    used: number;
+    limit: number;
+  };
+  quiz: {
+    used: number;
+    limit: number;
+  };
 };
 
-export function getAiCourseLimitOptions() {
+export function aiLimitOptions() {
   return queryOptions({
     queryKey: ['ai-course-limit'],
     queryFn: () => {
       return httpGet<GetAICourseLimitResponse>(`/v1-get-ai-course-limit`);
     },
     enabled: !!isLoggedIn(),
+    retryOnMount: false,
+    refetchOnMount: false,
   });
 }
 

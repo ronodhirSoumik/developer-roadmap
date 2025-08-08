@@ -1,5 +1,8 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { ArrowRightIcon, MousePointerClick, Play } from 'lucide-react';
+import {
+  ArrowRightIcon, MousePointerClick,
+  Play
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { cn } from '../../lib/classname';
 import {
@@ -18,6 +21,7 @@ import { useToast } from '../../hooks/use-toast';
 import { httpPost } from '../../lib/query-http';
 import { deleteUrlParam, getUrlParams } from '../../lib/browser';
 import { VideoModal } from '../VideoModal';
+import { useCopyText } from '../../hooks/use-copy-text';
 
 export const SQL_COURSE_SLUG = 'sql';
 
@@ -42,6 +46,8 @@ export function BuyButton(props: BuyButtonProps) {
   const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const toast = useToast();
+
+  const { copyText, isCopied } = useCopyText();
 
   const { data: coursePricing, isLoading: isLoadingPrice } = useQuery(
     coursePriceOptions({ courseSlug: SQL_COURSE_SLUG }),
@@ -161,9 +167,12 @@ export function BuyButton(props: BuyButtonProps) {
       return;
     }
 
+    const encodedCourseSlug = encodeURIComponent(`/courses/${SQL_COURSE_SLUG}`);
+    const successUrl = `/thank-you?next=${encodedCourseSlug}`;
+
     createCheckoutSession({
       courseId: SQL_COURSE_SLUG,
-      success: `/courses/${SQL_COURSE_SLUG}?${COURSE_PURCHASE_SUCCESS_PARAM}=1`,
+      success: successUrl,
       cancel: `/courses/${SQL_COURSE_SLUG}?${COURSE_PURCHASE_SUCCESS_PARAM}=0`,
     });
   }
@@ -215,7 +224,7 @@ export function BuyButton(props: BuyButtonProps) {
             onClose={() => setIsVideoModalOpen(false)}
           />
         )}
-        <div className="flex flex-col gap-2 md:flex-row md:gap-0">
+        <div className="relative flex flex-col gap-2 md:flex-row md:gap-0">
           <button
             onClick={onBuyClick}
             disabled={isLoadingPricing}
@@ -269,7 +278,7 @@ export function BuyButton(props: BuyButtonProps) {
         </div>
 
         {!isLoadingPricing && (
-          <span className="absolute top-full z-50 flex w-[300px] translate-y-4 flex-row items-center justify-center text-sm text-yellow-400">
+          <span className="absolute top-full z-50 flex w-max translate-y-4 flex-row items-center justify-center text-sm text-yellow-400">
             Lifetime access <span className="mx-2">&middot;</span>{' '}
             <button
               onClick={() => setIsVideoModalOpen(true)}
